@@ -1,17 +1,16 @@
 ---
-title: "EDA Project: A review of white wine data by Garrett Busch"
-runtime: shiny
+title: 'EDA Project: A review of white wine data by Garrett Busch'
 output:
   html_document:
-    fig_width: 10
-    fig_height: 7
-    toc: true
-    toc_depth: 1
-    toc_float: true
-    number_sections: true
-    theme: united
-    highlight: tango
     code_folding: hide
+    fig_height: 7
+    fig_width: 10
+    highlight: tango
+    number_sections: yes
+    theme: united
+    toc: yes
+    toc_depth: 1
+    toc_float: yes
 ---
 
 ========================================================
@@ -48,8 +47,6 @@ setwd("C:/Users/Demi/OneDrive - Vortex Optics/Udacity/Data Analyst Degree/Explor
 # Introduction
 
 This project is exploration of data analysis as it relates to a dataset concerning white wine. In this project, I will attempt examine & document various relationships and thought processes that can be derived from this data set. While not an avid wine drinker myself, I've known the industry to be very specialized and at that, very subjective. This particular sparked my interest given my wife's interest in the drink as well as underlying desire to understand more about the industry of bottled wine.
-
-This is an exploratory data analysis of campaign contributions for the state of Ohio during the 2012 presidential election.  Historically, Ohio has been a critical swing state for presidential elections and, according to wikipedia, possesses the longest streak of matching the overall election outcome (since 1960).  It would be a mistake to infer that campaign contributions are a predictor or even loosely correlated with votes (I might be biting my tongue if we were talking about superPACs though), but Ohio is one of the most frequently visited states on a presidential nominee's campaign trail and for this reason it piqued my interest.   I'll explore the nature of campaign contributions and see if there are any interesting relationships in the data.  I'll also take a look at the geographic distribution of campaign contributions by zipcode.  This exploration may shed light on the characteristics of a generous contributor and perhaps why particular party candidates visit certain areas in the state.  Anything of significance could be used in future inferential or predictive analysis.
 
 ---
 
@@ -141,15 +138,16 @@ There are some noteworthy things that can be gleaned from the above:
 As quality will be something that we are highly interested in, lets start here with plotting some data:
 
 ```{r}
-ggplot(aes(x = quality.int), data = df_wine) +
-  geom_histogram()
+counts <- table(df_wine$quality)
+barplot(counts, main="Quality Distribution", 
+  	xlab="Range of Quality")
 ```
 
 We can improve upon this 1st plot by introducing some binsize, color and labeling.
 
 ```{r}
 ggplot(aes(x = quality.int), data = df_wine) +
-  geom_histogram(color = "red", aes(fill = ..count..), binwidth = 1) +
+  geom_bar(color = "red", aes(fill = ..count..)) +
   scale_fill_gradient("Key",low = "green", high = "red") +
   ggtitle("Histogram of 'Quality' from White Wine data") +
   theme_dark() +
@@ -259,43 +257,98 @@ As we have some continuous variables I would like to see some box plots describi
 ```{r}
 p1 <- ggplot(aes(x = "", y = fixed.acidity), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p2 <- ggplot(aes(x = "", y = volatile.acidity), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p3 <- ggplot(aes(x = "", y = citric.acid), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p4 <- ggplot(aes(x = "", y = residual.sugar), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p5 <- ggplot(aes(x = "", y = chlorides), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF") +
   ylim(quantile(df_wine$chlorides, .01),
        quantile(df_wine$chlorides, .99)) +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p6 <- ggplot(aes(x = "", y = free.sulfur.dioxide), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF") +
   ylim(quantile(df_wine$free.sulfur.dioxide, .01),
        quantile(df_wine$free.sulfur.dioxide, .99)) +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p7 <- ggplot(aes(x = "", y = total.sulfur.dioxide), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p8 <- ggplot(aes(x = "", y = density), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF") +
   ylim(quantile(df_wine$density, .01),
        quantile(df_wine$density, .99)) +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p9 <- ggplot(aes(x = "", y = pH), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p10 <- ggplot(aes(x = "", y = sulphates), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 p11 <- ggplot(aes(x = "", y = alcohol), data = df_wine) +
   geom_boxplot(fill = "white", colour = "#3366FF")  +
-  theme_dark()
+  theme_dark()+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "red", 
+               shape = 4, 
+               size = 2)
 
 suppressMessages(grid.arrange(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11))
 ```
@@ -413,7 +466,12 @@ ggplot(sub_wine, aes(quality,chlorides)) +
   ylim(quantile(sub_wine$chlorides, .00),
        quantile(sub_wine$chlorides, .98)) +
   theme_dark() +
-  ggtitle("Chlorides w/Quality")
+  ggtitle("Chlorides w/Quality")+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "blue", 
+               shape = 4, 
+               size = 2)
 ```
 
 When comparing chlorides to quality, generally, the quality tends to increase (however marginally) as chlorides decrease. If refering to my notes above (link) you can see that chlorides translates to sodium chloride. You would be correct in reading this that "salt" is a flavor and a part of the soil composition process. It seems highly probable that wine distrbutors would look to minimize on this compound as salt isn't a preferred taste in the white wine world. It would seem that there may be an upper barrier that wine makers would hope not to cross. I found myself needing to shave off 2-3% of the upper limit here as there were some observations that were double, triple and even quadruple the median!
@@ -428,7 +486,12 @@ ggplot(sub_wine, aes(quality,density)) +
   ylim(quantile(sub_wine$density, .00),
        quantile(sub_wine$density, .99)) +
   theme_dark() +
-  ggtitle("Density w/Quality")
+  ggtitle("Density w/Quality")+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "blue", 
+               shape = 4, 
+               size = 2)
 ```
 
 Again, we see that with density and quality there is a slight decrease in density when cutting on quality from 5-8. A part of me intuitively feels that wine judgers are more concerned with the right type of substances (which we've yet to fully identify) as opposed to having plethora of tastes available. We can take solace again in knowing that these decreases in the quartile ranges are fairly subtle at about ~.003-.005 change.
@@ -441,7 +504,12 @@ ggplot(sub_wine, aes(quality,alcohol)) +
                outlier.alpha = .2) +
   geom_jitter(alpha = .1) +
   theme_dark() +
-  ggtitle("Alcohol w/Quality")
+  ggtitle("Alcohol w/Quality")+
+  stat_summary(fun.y = "mean", 
+               geom = "point", 
+               color = "blue", 
+               shape = 4, 
+               size = 2)
 ```
 
 Finally, a plot indicating a change that counteracts what we've been seeing with density and chlorides. The 0.436 correlation feels much stronger after viewing this plot. This may start to shape the idea that certain variables aren't as important as alcohol. It may even be so that alcohol is used as a masking agent as wine makers attempt to distribute different combinations of substances in attempt to find niche' markets. The alternative could be that alcohol truly is the most important piece in making a good wine. Convential reasoning suggests the former.
@@ -551,7 +619,9 @@ As alcohol has shown the most promising relationship with wine quality, I will l
 ggplot(data = sub_wine,
        aes(y = sulphates, x = alcohol,
            color = quality.cut)) +
-  geom_point() + facet_wrap(~quality.cut)
+  geom_point(alpha = .25) +
+  facet_wrap(~quality.cut) + 
+  geom_smooth(method='lm', color = "black")
 ```
 
 It can be seen from the above that higher quality wines typically have a higher % alcohol content. This confirms ours suspicion from earlier and provides further support given that quality tends to be lower with less alchol.
@@ -560,14 +630,19 @@ It can be seen from the above that higher quality wines typically have a higher 
 ggplot(data = sub_wine,
        aes(y = pH, x = alcohol,
            color = quality.cut)) +
-  geom_point(alpha = 1/2)
+  geom_point(alpha = .6) + 
+  geom_smooth(method='lm', color = "black")  +
+  scale_color_brewer(type='seq',
+                   guide=guide_legend(title='Quality'))
 ```
 
 Interestingly enough, there seems to be a relationship between pH concentration and alcohol as it relates to quality. Notice the pink grouping (left), green (middle) and blue (right). Across all these groupings I notice that the top is more dense for "below average" and "average" ratings. This indicates to me that as alchol reaches a certain level ~11, in order for the alcohol to continue performing well pH is gradually reduced. Looking at a quick violin plot we can quickly see this density distribution.
 
 ```{r}
-ggplot(sub_wine, aes(x=pH, y=alcohol, color=quality.cut)) +
-  geom_violin(trim=FALSE, alpha = 1/2)
+# ggplot(sub_wine, aes(x=factor(pH.cut), y=alcohol, color=quality.cut)) +
+#   geom_violin(trim=FALSE, alpha = 1/2)
+ggplot(aes(x = factor(quality), y = pH), data = sub_wine) + 
+   geom_boxplot(aes(fill = alcohol.cut) )
 ```
 
 An interesting plot from the bivariate section was an association between density and residual sugar. Lets look at this comparison with alcohol.
@@ -576,7 +651,8 @@ An interesting plot from the bivariate section was an association between densit
 ggplot(sub_wine, aes(x = alcohol, y = density)) +
   geom_point(aes(color = residual.sugar.cut), alpha = 1/3) +
   ylim(quantile(sub_wine$density, 0.01),
-       quantile(sub_wine$density, 0.99))
+       quantile(sub_wine$density, 0.99)) + 
+  geom_smooth(aes(color = residual.sugar.cut), method='lm', se=FALSE, fullrange=TRUE)
 ```
 
 We can see from the above that as alcohol increases, density decreases. Similarly, residual sugar is associated with higher density.
@@ -619,11 +695,11 @@ I attempted an mtable which produces a composite table of various models. Within
 
 ```{r}
 ggplot(aes(x = quality.int), data = df_wine) +
-  geom_histogram(color = "red", aes(fill = ..count..), binwidth = 1) +
+  geom_bar(color = "red", aes(fill = ..count..)) +
   scale_fill_gradient("Key",low = "green", high = "red") +
   ggtitle("Histogram of 'Quality'") +
   theme_dark() +
-  scale_x_continuous(name = "Quality",
+  scale_x_continuous(name = "Quality [score between 0 and 10]",
                      breaks = seq(0,10,1))
 ```
 
@@ -632,9 +708,11 @@ The above shows the recorded observations of each level of quality. This graph s
 ```{r fig.cap = ""}
 b1 <- ggplot( aes( x= residual.sugar, y = density), data = sub_wine) + 
   geom_jitter(alpha = 0.5, size = 0.75) + 
-  coord_cartesian(xlim = c(0, 25), ylim = c(0.98, 1.01)) + 
-  xlab("Residual Sugar") +
-  ylab("Density") +
+  coord_cartesian(xlim = c(0, 20), ylim = c(0.98, 1.01)) + 
+  xlim(quantile(sub_wine$residual.sugar, 0.01),
+       quantile(sub_wine$residual.sugar, 0.99)) +
+  xlab("Residual Sugar [g/dm^3]") +
+  ylab("Density [g/cm^3]") +
   ggtitle("Linear model of Density/Residual Sugar") +
   theme_classic() +
   geom_smooth()
@@ -642,8 +720,12 @@ b1 <- ggplot( aes( x= residual.sugar, y = density), data = sub_wine) +
 b2 <- ggplot( aes( x= alcohol, y = density), data = sub_wine) + 
   geom_jitter(alpha = 0.5, size = 0.75) + 
   coord_cartesian(ylim = c(0.98, 1.01)) +
-  xlab("Alcohol") +
-  ylab("Density") +
+  xlim(quantile(sub_wine$alcohol, 0.01),
+       quantile(sub_wine$alcohol, 0.99)) +
+  ylim(quantile(sub_wine$density, 0.01),
+       quantile(sub_wine$density, 0.99)) +
+  xlab("Alcohol [%]") +
+  ylab("Density [g/cm^3]") +
   ggtitle("Linear model of Density/Alcohol") +
   theme_classic() +
   geom_smooth(method = lm)
@@ -661,9 +743,11 @@ ggplot(sub_wine, aes(x = alcohol, y = density)) +
   ylim(quantile(sub_wine$density, 0.01),
        quantile(sub_wine$density, 0.99)) +
   theme_classic() +
-  xlab("Alcohol") +
-  ylab("Density") +
-  ggtitle("Scatterplot of Alcohol/Density w/Residual Sugar")
+  xlab("Alcohol [%]") +
+  ylab("Density [g/cm^3]") +
+  ggtitle("Scatterplot of Alcohol/Density w/Residual Sugar") + 
+  geom_smooth(aes(color = residual.sugar.cut), method='lm', se=FALSE, fullrange=TRUE)
+
 ```
 
 This plot shows a relationship between alcohol, density and residual sugar. The clear visual here is that as density decreases, alcohol increases. Another worthwhile note is the clear seperation of resudal sugars under/over 5.2. Because residual sugar of higher proportion (blue dots) sits on top of the red dots we can infer that residual sugar is a more dense compound in the wine. 
